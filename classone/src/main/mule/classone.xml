@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="cdc3a0d6-f74e-4c09-9045-ab17e013ef7b">
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="classoneFlow" doc:id="21002547-7c10-4791-a68d-5087e7dfdcd3" >
+		<http:listener doc:name="Listener" doc:id="a526d9b8-deac-4da5-a81e-311082a7ca07" config-ref="HTTP_Listener_config" path="/Demo"/>
+		<set-payload value="#['Class One ']" doc:name="Set Payload" doc:id="fa23ea3d-74e8-41fc-a2ee-2a7e512e4948" />
+		<logger level="INFO" doc:name="Logger" doc:id="b82d9674-6708-4a59-98f1-1d8f6468b37e" message="#[payload]"/>
+		<set-variable value="#[attributes.queryParams.Name]" doc:name="Set Variable" doc:id="d940f8ad-4133-4dfd-8de4-898e8acc1da6" variableName="FirstName"/>
+		<choice doc:name="Choice" doc:id="24d0a46a-53ad-4f1a-80e7-cca491539cbe" >
+			<when expression='#[vars.firstName =="Aneesh"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="aca74fb4-15bb-4228-88a5-516da9573614" message="#['This is my name']"/>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="7649756d-097b-4738-9cba-86842da359ab" message="#['This is not my name']"/>
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
